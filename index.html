@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Elite Laptop Control</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    
+    <!-- LOGIN PANEL -->
+    <div class="panel login-panel active" id="loginPanel">
+        <div class="panel-header">
+            <div class="signal-indicator">
+                <i class="fas fa-signal"></i>
+                <span>SECURE CONNECTION</span>
+            </div>
+            <div class="battery-indicator">
+                <i class="fas fa-bolt"></i>
+                <span>100%</span>
+            </div>
+        </div>
+        
+        <h1 class="glitch" data-text="SECURE LOGIN">SECURE LOGIN</h1>
+        <p class="desc">mobile authentication required</p>
+        
+        <div class="input-group">
+            <div class="input-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <input type="text" id="username" placeholder="Username" autocapitalize="off" autocomplete="off" enterkeyhint="next">
+            <span class="input-label">Username</span>
+        </div>
+        
+        <div class="input-group">
+            <div class="input-icon">
+                <i class="fas fa-key"></i>
+            </div>
+            <input type="password" id="password" placeholder="Password" enterkeyhint="go">
+            <span class="input-label">Password</span>
+            <button class="toggle-password" type="button">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
+        
+        <button class="login-btn" onclick="login()" id="loginBtn">
+            <span class="btn-text">LOGIN</span>
+            <span class="btn-loading hidden">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        
+        <div class="login-options">
+            <button class="option-btn" onclick="clearForm()">
+                <i class="fas fa-eraser"></i> Clear Form
+            </button>
+            <button class="option-btn" onclick="togglePasswordVisibility()">
+                <i class="fas fa-eye"></i> Toggle Password
+            </button>
+        </div>
+        
+        <span class="status" id="loginStatus"></span>
+        
+        <div class="mobile-footer">
+            <div class="hint">
+                <i class="fas fa-fingerprint"></i>
+                <span>Authentication required</span>
+            </div>
+            <div class="time-display" id="currentTime">--:--:--</div>
+        </div>
+    </div>
+    
+    <!-- MAIN PANEL -->
+    <div class="panel main-panel hidden" id="mainPanel">
+        <div class="mobile-header">
+            <button class="back-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+            <div class="connection-status">
+                <div class="signal-dots">
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                </div>
+                <span>ELITE NETWORK</span>
+            </div>
+            <div class="header-time" id="headerTime">--:--</div>
+        </div>
+        
+        <h1 class="glitch" data-text="ELITE CONTROL">ELITE CONTROL</h1>
+        <p class="desc">mobile asynchronous interface</p>
+        
+        <div class="target-input-section">
+            <div class="input-group">
+                <div class="input-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <input type="tel" id="numberInput" placeholder="+62xxxxxxxxxx" 
+                       pattern="\+62[0-9]{9,12}" inputmode="tel" 
+                       maxlength="15" enterkeyhint="done">
+                <span class="input-label">Target Number</span>
+            </div>
+            
+            <div class="number-preview" id="numberPreview">
+                <span>No number entered</span>
+            </div>
+        </div>
+        
+        <div class="control-buttons">
+            <button class="control-btn primary" onclick="startFake()" id="delayBtn">
+                <i class="fas fa-clock"></i>
+                <span>INITIATE DELAY</span>
+            </button>
+            
+            <button class="control-btn secondary" onclick="resetProgress()">
+                <i class="fas fa-redo"></i>
+                <span>RESET</span>
+            </button>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-info">
+                <span class="progress-label">SYNC PROGRESS</span>
+                <span class="progress-value" id="progressValue">0%</span>
+            </div>
+            <div class="progress">
+                <div class="bar" id="bar"></div>
+                <div class="progress-glow"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="step active">INIT</span>
+                <span class="step">SCAN</span>
+                <span class="step">SYNC</span>
+                <span class="step">DELAY</span>
+                <span class="step">DONE</span>
+            </div>
+        </div>
+        
+        <div class="status-display">
+            <div class="status-header">
+                <i class="fas fa-terminal"></i>
+                <span>SYSTEM STATUS</span>
+            </div>
+            <div class="status-content" id="status">
+                <div class="status-line">
+                    <span class="status-time">[--:--:--]</span>
+                    <span class="status-text">IDLE - AWAITING INPUT</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mobile-controls">
+            <div class="vibration-toggle">
+                <i class="fas fa-vibrate"></i>
+                <span>Haptic Feedback</span>
+                <label class="switch">
+                    <input type="checkbox" id="vibrationToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+        <div class="popup-icon">
+            <i class="fas fa-skull"></i>
+        </div>
+        <div class="popup-content">
+            <h3>TARGET ACQUIRED</h3>
+            <p id="popupText"></p>
+            <div class="popup-buttons">
+                <button class="popup-btn confirm" onclick="closePopup()">
+                    <i class="fas fa-check"></i> CONFIRM
+                </button>
+                <button class="popup-btn cancel" onclick="closePopup()">
+                    <i class="fas fa-times"></i> DISMISS
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
